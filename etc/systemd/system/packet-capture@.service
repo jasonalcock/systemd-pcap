@@ -1,0 +1,28 @@
+[Unit]
+Description=Service for running lonng packet captures
+Documentation=https://github.com/jasonalcock/systemd-pcap/blob/master/README.md
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/systemd/system/packet-capture.environment
+# Snap length
+Environment="SNAPLENGTH=70"
+# Max file size MB
+Environment="FILESIZE=200"
+# Max number of files
+Environment="MAX_FILES=10"
+# Rotate seconds - 4 hours
+Environment="ROTATE_SECONDS=1"
+# BPF filter
+Environment="FILTER=tcp port 22"
+# Additional arguments to tcpdump
+Environment="ADDITIONAL_ARGS="
+# Compress
+Environment="COMPRESSION=gzip"
+
+ExecStartPre=/bin/bash -c '/bin/systemctl set-environment HOSTNAME=$(hostname)'
+ExecStart=/usr/sbin/tcpdump -i %i -z ${COMPRESSION} -w /var/spool/%H-${TCPDUMP_FORMAT}.pcap -W ${MAX_FILES} -G ${ROTATE_SECONDS} -s ${SNAPLENGTH} -K -n ${FILTER}
+
+[Install]
+WantedBy=multi-user.target
