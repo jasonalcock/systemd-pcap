@@ -4,7 +4,7 @@ Safely run long packet captures
 Steps:
 1. Run df -h to get amount of free disk space on system
 2. Insert file /etc/systemd/system/packet-capture.environment
-3. Insert file /etc/systemd/system/pcap-tool@.service
+3. Insert file /etc/systemd/system/packet-capture@.service
 4. chmod 644 both files
 5. Edit pcap-tool@.service and ensure BPF filter is specific as possible to traffic you want to capture 
 5. Start capture using systemctl start pcap-tool@\<interface name\> and leave to run for 20 minutes
