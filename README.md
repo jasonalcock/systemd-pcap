@@ -1,4 +1,4 @@
-# systemd-pcap
+# systemd-packet-cpature
 Safely run long packet captures
 
 Steps:
